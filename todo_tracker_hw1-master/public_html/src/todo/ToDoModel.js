@@ -1,7 +1,5 @@
 'use strict'
 
-//hi
-
 import ToDoList from './ToDoList.js'
 import ToDoListItem from './ToDoListItem.js'
 import jsTPS from '../common/jsTPS.js'
@@ -122,11 +120,19 @@ export default class ToDoModel {
      */
     loadList(listId) {
         let listIndex = -1;
-        for (let i = 0; (i < this.toDoLists.length) && (listIndex < 0); i++) {
+        for (let i = 0; (i < this.toDoLists.length) && (listIndex < 0); i++) { //searching for the selected list to load
             if (this.toDoLists[i].id === listId)
                 listIndex = i;
         }
         if (listIndex >= 0) {
+            //REORDER THE toDOLists SO THAT THE CLICKED LIST APPEARS AT THE BEGINNING
+            let temp = this.toDoLists[listIndex];
+            for(let j = listIndex - 1; j >= 0; j--){
+                this.toDoLists[j+1] = this.toDoLists[j]; //shift each element right once
+            }
+            this.toDoLists[0] = temp; //place the selected list at the front of the 
+            this.view.refreshLists(this.toDoLists); //refeshes the view of all the lists
+
             let listToLoad = this.toDoLists[listIndex];
             this.currentList = listToLoad;
             this.view.viewList(this.currentList);
@@ -154,16 +160,19 @@ export default class ToDoModel {
      * Finds and then removes the current list.
      */
     removeCurrentList() {
+
+        //CONFIRMATION MESSAGE NEEDED HERE (IF YES, PROCEED. IF NO, BREAK)
+
         let indexOfList = -1;
         for (let i = 0; (i < this.toDoLists.length) && (indexOfList < 0); i++) {
             if (this.toDoLists[i].id === this.currentList.id) {
                 indexOfList = i;
             }
         }
-        this.toDoLists.splice(indexOfList, 1);
-        this.currentList = null;
-        this.view.clearItemsList();
-        this.view.refreshLists(this.toDoLists);
+        this.toDoLists.splice(indexOfList, 1); //at position indexOfList, remove 1 item (removes the unwanted list from the list of all lists)
+        this.currentList = null; //nullifies the current list since it just got deleted
+        this.view.clearItemsList(); //removes all of the unwanted list's content
+        this.view.refreshLists(this.toDoLists); //refeshes the view of all the lists
     }
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
