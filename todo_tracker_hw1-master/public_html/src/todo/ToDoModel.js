@@ -161,6 +161,7 @@ export default class ToDoModel {
      */
     removeCurrentList() {
 
+        this.view.deleteDialog();
         //CONFIRMATION MESSAGE NEEDED HERE (IF YES, PROCEED. IF NO, BREAK)
 
         let indexOfList = -1;

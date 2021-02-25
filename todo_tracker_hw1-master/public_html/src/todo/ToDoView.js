@@ -76,6 +76,22 @@ export default class ToDoView {
         }
     }
 
+    // DELETION CONFIRMATION MESSAGE
+    deleteDialog() {
+        var popUpConfirmation = "<div class = 'deletePopUpModal' id = 'deleteModal'>"
+                              + "<div class = 'deleteModalContent'>"
+                              + "<span class = 'YES'>YES;</span>"
+                              + "<span class = 'NO'>NO;</span>"
+                              + "<p>TEST DELETION CONFIRMATION</p>"
+                              + "</div>";
+        var PUC = document.getElementById("deleteModal");
+        var yes = document.getElementsByClassName("YES")[0];
+        var no = document.getElementsByClassName("NO")[0];
+        PUC.modal('show'); //how to make modal popup?
+    }
+
+
+
     // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES
     setController(initController) {
         this.controller = initController;
