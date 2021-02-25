@@ -57,6 +57,7 @@ export default class ToDoModel {
      */
     addNewItemToList(list, initDescription, initDueDate, initStatus) {
         let newItem = new ToDoListItem(this.nextListItemId++);
+
         newItem.setDescription(initDescription);
         newItem.setDueDate(initDueDate);
         newItem.setStatus(initStatus);
@@ -126,16 +127,16 @@ export default class ToDoModel {
         }
         if (listIndex >= 0) {
             //REORDER THE toDOLists SO THAT THE CLICKED LIST APPEARS AT THE BEGINNING
+            let listToLoad = this.toDoLists[listIndex];
+            this.currentList = listToLoad;
+            this.view.viewList(this.currentList);
+            
             let temp = this.toDoLists[listIndex];
             for(let j = listIndex - 1; j >= 0; j--){
                 this.toDoLists[j+1] = this.toDoLists[j]; //shift each element right once
             }
             this.toDoLists[0] = temp; //place the selected list at the front of the 
             this.view.refreshLists(this.toDoLists); //refeshes the view of all the lists
-
-            let listToLoad = this.toDoLists[listIndex];
-            this.currentList = listToLoad;
-            this.view.viewList(this.currentList);
         }
     }
 
