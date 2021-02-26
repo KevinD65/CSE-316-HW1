@@ -29,9 +29,6 @@ export default class ToDoController {
         document.getElementById("add-item-button").onmousedown = function() {
             appModel.addNewItemTransaction();
         }
-        /*
-        SAVING EDITED CONTENT AND ADDING IT TO TRANSACTION STACK
-        */
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD

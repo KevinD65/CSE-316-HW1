@@ -62,9 +62,10 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<div class='task-col' id = 'myTask' contenteditable = 'true'>" + listItem.description + "</div>"
-                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>"
-                                + "<div class='status-col' contenteditable = 'true'>" + listItem.status + "</div>"
+                                + "<div class='task-col' id = 'myTask'>" + listItem.description + "</div>"
+                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>" //listener
+                                + "<input type = "
+                                + "<div class='status-col'>" + listItem.status + "</div>"
                                 + "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
@@ -75,22 +76,6 @@ export default class ToDoView {
             itemsListDiv.innerHTML += listItemElement;
         }
     }
-
-    // DELETION CONFIRMATION MESSAGE
-    deleteDialog() {
-        var popUpConfirmation = "<div class = 'deletePopUpModal' id = 'deleteModal'>"
-                              + "<div class = 'deleteModalContent'>"
-                              + "<span class = 'YES'>YES;</span>"
-                              + "<span class = 'NO'>NO;</span>"
-                              + "<p>TEST DELETION CONFIRMATION</p>"
-                              + "</div>";
-        var PUC = document.getElementById("deleteModal");
-        var yes = document.getElementsByClassName("YES")[0];
-        var no = document.getElementsByClassName("NO")[0];
-        PUC.modal('show'); //how to make modal popup?
-    }
-
-
 
     // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES
     setController(initController) {

@@ -158,23 +158,33 @@ export default class ToDoModel {
     }
 
     /**
-     * Finds and then removes the current list.
+     * Finds and then removes the current list. Provides confirmation prior to deletion.
      */
     removeCurrentList() {
+        var deleteConfirmation = document.getElementById("deleteConfirmation");
+        var confirm = document.getElementsByClassName("Yes")[0];
+        var deny = document.getElementsByClassName("No")[0];
+        deleteConfirmation.style.display = "block";
 
-        this.view.deleteDialog();
-        //CONFIRMATION MESSAGE NEEDED HERE (IF YES, PROCEED. IF NO, BREAK)
-
-        let indexOfList = -1;
-        for (let i = 0; (i < this.toDoLists.length) && (indexOfList < 0); i++) {
-            if (this.toDoLists[i].id === this.currentList.id) {
-                indexOfList = i;
+        confirm.addEventListener("click", ()=> {
+            deleteConfirmation.style.display = "none";
+            let indexOfList = -1;
+            for (let i = 0; (i < this.toDoLists.length) && (indexOfList < 0); i++) {
+                console.log("hello world");
+                if (this.toDoLists[i].id === this.currentList.id) {
+                    indexOfList = i;
+                }
             }
+            this.toDoLists.splice(indexOfList, 1); //at position indexOfList, remove 1 item (removes the unwanted list from the list of all lists)
+            this.currentList = null; //nullifies the current list since it just got deleted
+            this.view.clearItemsList(); //removes all of the unwanted list's content
+            this.view.refreshLists(this.toDoLists); //refeshes the view of all the lists
+            }
+        );
+
+        deny.onclick = function(){
+            deleteConfirmation.style.display = "none";
         }
-        this.toDoLists.splice(indexOfList, 1); //at position indexOfList, remove 1 item (removes the unwanted list from the list of all lists)
-        this.currentList = null; //nullifies the current list since it just got deleted
-        this.view.clearItemsList(); //removes all of the unwanted list's content
-        this.view.refreshLists(this.toDoLists); //refeshes the view of all the lists
     }
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
