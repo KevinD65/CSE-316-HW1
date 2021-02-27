@@ -196,9 +196,7 @@ export default class ToDoModel {
      */
     editTask(itemID, forward) {
         var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
-        //console.log(currentItem.getDescription());
         currentItem.setDescription(forward);
-        //console.log(currentItem.getDescription());
         this.view.viewList(this.currentList);
     }
 
@@ -218,8 +216,8 @@ export default class ToDoModel {
         this.view.viewList(this.currentList);
     }
 
-    addEditDateTransaction(itemID, newDate){
-        let transaction = new EditDate_Transaction(this, itemID, newDate);
+    addEditDateTransaction(itemID, newDate, oldDate){
+        let transaction = new EditDate_Transaction(this, itemID, newDate, oldDate);
         this.tps.addTransaction(transaction);
     }
 
@@ -234,8 +232,8 @@ export default class ToDoModel {
         this.view.viewList(this.currentList);
     }
     
-    addEditStatusTransaction(itemID, newStatus){
-        let transaction = new EditStatus_Transaction(this, itemID, newStatus);
+    addEditStatusTransaction(itemID, newStatus, oldStatus){
+        let transaction = new EditStatus_Transaction(this, itemID, newStatus, oldStatus);
         this.tps.addTransaction(transaction);
     }
 

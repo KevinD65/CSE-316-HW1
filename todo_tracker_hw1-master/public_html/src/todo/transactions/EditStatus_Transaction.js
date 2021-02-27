@@ -7,10 +7,10 @@ import { jsTPS_Transaction } from "../../common/jsTPS.js"
 export default class EditStatus_Transaction extends jsTPS_Transaction {
     constructor(initModel, itemID, newState, oldState) {
         super();
+        this.model = initModel;
         this.id = itemID;
         this.updatedState = newState;
         this.previousState = oldState;
-        this.model = initModel;
     }
 
     doTransaction() {

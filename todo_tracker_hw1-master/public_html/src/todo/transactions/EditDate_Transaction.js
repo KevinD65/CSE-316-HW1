@@ -20,6 +20,6 @@ export default class EditDate_Transaction extends jsTPS_Transaction {
 
     undoTransaction() {
         //Undo edit of the date
-        this.model.removeItem(this.id, this.previousDate);
+        this.model.editDate(this.id, this.previousDate);
     }
 }

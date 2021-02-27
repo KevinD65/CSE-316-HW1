@@ -63,9 +63,9 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<input type = 'text' class='task-col' id = 'description" + listItem.id + "' value = " + listItem.getDescription() + ">"
-                                + "<input type = 'date' class='due-date-col' id = 'date" + listItem.id + "' value = " + listItem.getDueDate() + ">"
-                                + "<select class='status-col' id = 'status" + listItem.id + "' value = " + listItem.getStatus() + ">"
+                                + "<input type = 'text' class='task-col' id = 'description" + i + "' value = " + listItem.getDescription() + ">"
+                                + "<input type = 'date' class='due-date-col' id = 'date" + i + "' value = " + listItem.getDueDate() + ">"
+                                + "<select class='status-col' id = 'status" + i + "' value = " + listItem.getStatus() + ">"
                                 + "<option value = 'complete' selected = 'selected'>Complete</option>"
                                 + "<option value = 'incomplete' selected = 'selected'>Incomplete</option>"
                                 + "<div class='list-controls-col'>"
@@ -79,14 +79,14 @@ export default class ToDoView {
         }
         for(let j = 0; j < list.items.length; j++){
             let listItem = list.items[j];
-            document.getElementById("description" + listItem.id).onblur = function(event){
-                myController.handleEditTask(listItem.id, event.target.value, listItem.description);
+            document.getElementById("description" + j).onblur = function(event){
+                myController.handleEditTask(j, event.target.value, listItem.description);
             }
-            document.getElementById("date" + listItem.id).onmousedown = function(event){
-                myController.handleEditDate(listItem.id);
+            document.getElementById("date" + j).onchange = function(event){
+                myController.handleEditDate(j, event.target.value, listItem.getDueDate());
             }
-            document.getElementById("status" + listItem.id).onchange = function(event){
-                myController.handleEditStatus(listItem.id);
+            document.getElementById("status" + j).onchange = function(event){
+                myController.handleEditStatus(j, event.target.value, listItem.getStatus());
             }
         }
         

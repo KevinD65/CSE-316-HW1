@@ -42,7 +42,11 @@ export default class ToDoController {
         this.model.addEditTaskTransaction(itemId, forward, revert);
     }
 
-    handleEditDate(itemId){
-        this.model.addEditDateTransaction(listId);
+    handleEditDate(itemId, newDate, oldDate){
+        this.model.addEditDateTransaction(itemId, newDate, oldDate);
+    }
+
+    handleEditStatus(itemId, newStatus, oldStatus){
+        this.model.addEditStatusTransaction(itemId, newStatus, oldStatus);
     }
 }
