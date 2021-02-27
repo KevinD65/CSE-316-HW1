@@ -52,6 +52,7 @@ export default class ToDoView {
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
     viewList(list) {
+        let myController = this.controller;
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
@@ -62,10 +63,11 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<div class='task-col' id = 'myTask'>" + listItem.description + "</div>"
-                                + "<div class='due-date-col'>" + listItem.dueDate + "</div>" //listener
-                                + "<input type = "
-                                + "<div class='status-col'>" + listItem.status + "</div>"
+                                + "<input type = 'text' class='task-col' id = 'description" + listItem.id + "' value = " + listItem.getDescription() + ">"
+                                + "<input type = 'date' class='due-date-col' id = 'date" + listItem.id + "' value = " + listItem.getDueDate() + ">"
+                                + "<select class='status-col' id = 'status" + listItem.id + "' value = " + listItem.getStatus() + ">"
+                                + "<option value = 'complete' selected = 'selected'>Complete</option>"
+                                + "<option value = 'incomplete' selected = 'selected'>Incomplete</option>"
                                 + "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
@@ -75,10 +77,25 @@ export default class ToDoView {
                                 + "</div>";
             itemsListDiv.innerHTML += listItemElement;
         }
+        for(let j = 0; j < list.items.length; j++){
+            let listItem = list.items[j];
+            document.getElementById("description" + listItem.id).onblur = function(event){
+                myController.handleEditTask(listItem.id, event.target.value, listItem.description);
+            }
+            document.getElementById("date" + listItem.id).onmousedown = function(event){
+                myController.handleEditDate(listItem.id);
+            }
+            document.getElementById("status" + listItem.id).onchange = function(event){
+                myController.handleEditStatus(listItem.id);
+            }
+        }
+        
+
     }
 
     // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES
     setController(initController) {
         this.controller = initController;
     }
+
 }

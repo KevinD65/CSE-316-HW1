@@ -4,6 +4,10 @@ import ToDoList from './ToDoList.js'
 import ToDoListItem from './ToDoListItem.js'
 import jsTPS from '../common/jsTPS.js'
 import AddNewItem_Transaction from './transactions/AddNewItem_Transaction.js'
+import EditItem_Transaction from './transactions/EditItem_Transaction.js'
+import ToDoView from './ToDoView.js'
+import EditDate_Transaction from './transactions/EditDate_Transaction.js'
+import EditStatus_Transaction from './transactions/EditStatus_Transaction.js'
 
 /**
  * ToDoModel
@@ -185,6 +189,54 @@ export default class ToDoModel {
         deny.onclick = function(){
             deleteConfirmation.style.display = "none";
         }
+    }
+
+    /**
+     * Edits the task
+     */
+    editTask(itemID, forward) {
+        var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
+        //console.log(currentItem.getDescription());
+        currentItem.setDescription(forward);
+        //console.log(currentItem.getDescription());
+        this.view.viewList(this.currentList);
+    }
+
+    addEditTaskTransaction(itemID, forward, revert) {
+        let transaction = new EditItem_Transaction(this, itemID, forward, revert);
+        this.tps.addTransaction(transaction);
+    }
+
+    /**
+     * Edits the date
+     * @param {*} itemID 
+     * @param {*} dateToChangeTo 
+     */
+    editDate(itemID, dateToChangeTo){
+        var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
+        currentItem.setDueDate(dateToChangeTo);
+        this.view.viewList(this.currentList);
+    }
+
+    addEditDateTransaction(itemID, newDate){
+        let transaction = new EditDate_Transaction(this, itemID, newDate);
+        this.tps.addTransaction(transaction);
+    }
+
+    /**
+     * Edits the status
+     * @param {*} itemID 
+     * @param {*} stateToChangeTo 
+     */
+    editStatus(itemID, stateToChangeTo){
+        var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
+        currentItem.setStatus(stateToChangeTo);
+        this.view.viewList(this.currentList);
+    }
+    
+    addEditStatusTransaction(itemID, newStatus){
+        let transaction = new EditStatus_Transaction(this, itemID, newStatus);
+        this.tps.addTransaction(transaction);
     }
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.

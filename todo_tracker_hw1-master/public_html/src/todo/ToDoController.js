@@ -36,4 +36,13 @@ export default class ToDoController {
         // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
         this.model.loadList(listId);
     }
+
+    //PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON AN ITEM TASK TO EDIT
+    handleEditTask(itemId, forward, revert){
+        this.model.addEditTaskTransaction(itemId, forward, revert);
+    }
+
+    handleEditDate(itemId){
+        this.model.addEditDateTransaction(listId);
+    }
 }
