@@ -119,6 +119,7 @@ export default class ToDoView {
             }
 
             //When task description is clicked, change the element to an input type = 'text'
+            /*
             document.getElementById("description" + j).onclick = function(event){
                 let oldElement = document.getElementById("description" + j);
                 let newElement = document.createElement("input");
@@ -139,21 +140,48 @@ export default class ToDoView {
                     oldElement.replaceWith(newElement);
                     myController.handleLoadList(list.id);
                 }
+            }*/
+
+            document.getElementById("description" + j).onclick = function(event){
+                let oldElement = document.getElementById("description" + j);
+                let newElement = document.createElement("input");
+                oldElement.replaceWith(newElement);
+                newElement.setAttribute("id", "description" + j);
+                newElement.type = "text";
+                newElement.value = listItem.description;
+                newElement.focus();
+                document.getElementById("add-list-button").style.color = 'grey';
+                //When user clicks off of the element, change it back into a div
+                document.getElementById("description" + j).onblur = function(event){
+                    document.getElementById("add-list-button").style.color = 'white';
+                    myController.handleEditTask(j, event.target.value, listItem.description);
+                    let oldElement = document.getElementById("description" + j);
+                    let newElement = document.createElement("div");
+                    newElement.id = "description" + j;
+                    newElement.classList.add("task-col");
+                    let updatedText = document.createTextNode(listItem.getDescription());
+                    newElement.appendChild(updatedText);
+                    oldElement.replaceWith(newElement);
+                    myController.handleLoadList(list.id);
+                }
             }
-            
+                
             document.getElementById("date" + j).onclick = function(event){
                 let oldElement = document.getElementById("date" + j);
                 let newElement = document.createElement("input");
                 oldElement.replaceWith(newElement);
                 newElement.setAttribute("id", "date" + j);
                 newElement.type = "date";
+                newElement.defaultValue = listItem.getDueDate();
+                newElement.focus();
                 document.getElementById("add-list-button").style.color = 'grey';
-                document.getElementById("date" + j).onchange = function(event){
-                    document.getElementById("add-list-button").style.color = 'white'; //WHY IS THE COLOR NOT CHANGING BACK TO WHITE?
+                document.getElementById("date" + j).onblur = function(event){
                     myController.handleEditDate(j, event.target.value, listItem.getDueDate());
+                    document.getElementById("add-list-button").style.color = 'white';
                     oldElement = document.getElementById("date" + j);
                     newElement = document.createElement("div");
                     newElement.id = "date" + j;
+                    newElement.classList.add("due-date-col");
                     let updatedDate = document.createTextNode(listItem.getDueDate());
                     newElement.appendChild(updatedDate);
                     oldElement.replaceWith(newElement);
@@ -175,8 +203,8 @@ export default class ToDoView {
 
                 document.getElementById("add-list-button").style.color = 'grey';
                 document.getElementById("status" + j).onchange = function(event){
-                    document.getElementById("add-list-button").style.color = 'white'; //WHY IS THE COLOR NOT CHANGING BACK TO WHITE?
                     myController.handleEditStatus(j, event.target.value, listItem.getStatus());
+                    document.getElementById("add-list-button").style.color = 'white';
                     oldElement = document.getElementById("status" + j);
                     newElement = document.createElement("div");
                     newElement.id = "status" + j;
