@@ -32,7 +32,6 @@
 }
 
 #add-list-button {
-    color: white;
     display: none;
 }
 
@@ -54,6 +53,7 @@
 #todo-list-items-div{
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
 }
 
 .list-item-card {

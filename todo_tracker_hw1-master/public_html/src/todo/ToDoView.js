@@ -74,7 +74,7 @@ export default class ToDoView {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
 
-            let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
+            let listItemElement = "<div id='todo-list-item-" + i/*listItem.id*/ + "' class='list-item-card'>"
                                 + "<div class='task-col' id = 'description" + i + "'>" + listItem.getDescription() + "</div>"
                                 + "<div class='due-date-col' id = 'date" + i + "'>" + listItem.getDueDate() + "</div>"
                                 + "<div class='status-col' id = 'status" + i + "'>" + listItem.getStatus() + "</div>"
@@ -89,8 +89,36 @@ export default class ToDoView {
             
         }
         
+        //ASSIGNS EVENT HANDLERS TO EACH BUTTON
         for(let j = 0; j < list.items.length; j++){
             let listItem = list.items[j];
+
+            document.getElementById("todo-list-item-" + j).onmouseover = function(event){
+                document.getElementById("todo-list-item-" + j).style.backgroundColor = '#f9f7f111';
+                document.getElementById("todo-list-item-" + j).onmouseout = function(event){
+                    document.getElementById("todo-list-item-" + j).style.backgroundColor = '#40454e';
+                }
+            }
+            document.getElementById("upArrow" + j).onmouseover = function(event){
+                document.getElementById("upArrow" + j).style.backgroundColor = '#d9d6cc';
+                document.getElementById("upArrow" + j).onmouseout = function(event){
+                    document.getElementById("upArrow" + j).style.backgroundColor = '#40454e';
+                }
+            }
+            document.getElementById("downArrow" + j).onmouseover = function(event){
+                document.getElementById("downArrow" + j).style.backgroundColor = '#d9d6cc';
+                document.getElementById("downArrow" + j).onmouseout = function(event){
+                    document.getElementById("downArrow" + j).style.backgroundColor = '#40454e';
+                }
+            }
+            document.getElementById("deleteButton" + j).onmouseover = function(event){
+                document.getElementById("deleteButton" + j).style.backgroundColor = '#d9d6cc';
+                document.getElementById("deleteButton" + j).onmouseout = function(event){
+                    document.getElementById("deleteButton" + j).style.backgroundColor = '#40454e';
+                }
+            }
+
+            //When task description is clicked, change the element to an input type = 'text'
             document.getElementById("description" + j).onclick = function(event){
                 let oldElement = document.getElementById("description" + j);
                 let newElement = document.createElement("input");
@@ -98,12 +126,14 @@ export default class ToDoView {
                 newElement.setAttribute("id", "description" + j);
                 newElement.type = "text";
                 document.getElementById("add-list-button").style.color = 'grey';
+                //When user clicks off of the element, change it back into a div
                 document.getElementById("description" + j).onblur = function(event){
                     document.getElementById("add-list-button").style.color = 'white';
                     myController.handleEditTask(j, event.target.value, listItem.description);
                     let oldElement = document.getElementById("description" + j);
                     let newElement = document.createElement("div");
                     newElement.id = "description" + j;
+                    newElement.classList.add("task-col");
                     let updatedText = document.createTextNode(listItem.getDescription());
                     newElement.appendChild(updatedText);
                     oldElement.replaceWith(newElement);
