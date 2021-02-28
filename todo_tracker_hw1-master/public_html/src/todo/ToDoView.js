@@ -79,11 +79,9 @@ export default class ToDoView {
                                 + "<div class='task-col' id = 'description" + i + "'>" + listItem.getDescription() + "</div>"
                                 + "<div class='due-date-col' id = 'date" + i + "'>" + listItem.getDueDate() + "</div>"
                                 + "<div class='status-col' id = 'status" + i + "'>" + listItem.getStatus() + "</div>"
-                                //+ "<option value = 'complete' selected = 'selected'>Complete</option>"
-                                //+ "<option value = 'incomplete' selected = 'selected'>Incomplete</option>"
                                 + "<div class='list-controls-col'>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
-                                + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
+                                + " <div id = 'upArrow" + i + "' class='list-item-control material-icons'> keyboard_arrow_up</div>"
+                                + " <div id = 'downArrow" + i + "' class='list-item-control material-icons'> keyboard_arrow_down</div>"
                                 + " <div class='list-item-control material-icons'>close</div>"
                                 + " <div class='list-item-control'></div>"
                                 + " <div class='list-item-control'></div>"
@@ -160,11 +158,14 @@ export default class ToDoView {
                 }
             }
 
-            /*
             document.getElementById("upArrow" + j).onclick = function(event){
                 myController.handleUpArrow(j);
             }
-            */
+
+            document.getElementById("downArrow" + j).onclick = function(event){
+                myController.handleDownArrow(j);
+            }
+            
         }
     }
 

@@ -10,6 +10,7 @@ import EditDate_Transaction from './transactions/EditDate_Transaction.js'
 import EditStatus_Transaction from './transactions/EditStatus_Transaction.js'
 import UpArrow_Transaction from './transactions/MoveItemUp_Transaction.js'
 import RemoveItemTransaction from './transactions/RemoveItem_Transaction.js'
+import DownArrow_Transaction from './transactions/MoveItemDown_Transaction.js'
 
 /**
  * ToDoModel
@@ -247,15 +248,28 @@ export default class ToDoModel {
     }
 
     moveItemUp(itemID){
-        var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
         var aboveItem = this.currentList.getItemAtIndex(itemID - 1);
-        this.currentList.getItemAtIndex(itemID) = aboveItem;
-        this.currentList.getItemAtIndex(itemID - 1) = currentItem;
+        var item = this.currentList.getItemAtIndex(itemID);
+        this.currentList.items.splice(itemID, 1, aboveItem);
+        this.currentList.items.splice(itemID - 1, 1, item);
         this.view.viewList(this.currentList);
     }
 
     addMoveItemUpTransaction(itemID){
         let transaction = new UpArrow_Transaction(this, itemID);
+        this.tps.addTransaction(transaction);
+    }
+
+    moveItemDown(itemID){
+        var belowItem = this.currentList.getItemAtIndex(itemID + 1);
+        var item = this.currentList.getItemAtIndex(itemID);
+        this.currentList.items.splice(itemID, 1, belowItem);
+        this.currentList.items.splice(itemID + 1, 1, item);
+        this.view.viewList(this.currentList);
+    }
+
+    addMoveItemDownTransaction(itemID){
+        let transaction = new DownArrow_Transaction(this, itemID);
         this.tps.addTransaction(transaction);
     }
 

@@ -52,7 +52,11 @@ export default class ToDoController {
     }
 
     handleUpArrow(itemId){
-        this.model.addUpArrowTransaction(itemId);
+        this.model.addMoveItemUpTransaction(itemId);
+    }
+
+    handleDownArrow(itemId){
+        this.model.addMoveItemDownTransaction(itemId);
     }
 /*
     handleFindCurrentList(){
