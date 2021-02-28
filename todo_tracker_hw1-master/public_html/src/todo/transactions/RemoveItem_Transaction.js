@@ -4,7 +4,7 @@
 import { jsTPS_Transaction } from "../../common/jsTPS.js"
 
 // THIS TRANSACTION IS FOR ADDING A NEW ITEM TO A TODO LIST
-export default class UpArrow_Transaction extends jsTPS_Transaction {
+export default class RemoveItemTransaction extends jsTPS_Transaction {
     constructor(initModel, itemID) {
         super();
         this.model = initModel;
@@ -12,12 +12,12 @@ export default class UpArrow_Transaction extends jsTPS_Transaction {
     }
 
     doTransaction() {
-        // Move item up
-        this.moveUp = this.model.moveItemUp(this.id);
+        // remove item from list
+        this.itemRemoved = this.model.removeItem(this.id);
     }
 
     undoTransaction() {
-        //move the item back down
-        this.model.moveItemDown(this.id);
+        // re-add item to list
+        this.model.addItem(this.id);
     }
 }

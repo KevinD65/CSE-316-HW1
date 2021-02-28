@@ -31,6 +31,19 @@
     text-align: right;
 }
 
+#add-list-button {
+    color: white;
+    display: none;
+}
+
+#undo-button {
+    display: none;
+}
+
+#redo-button {
+    display: none;
+}
+
 #workspace {
     grid-column: 2 span 1;
     grid-row: 2 span 1;

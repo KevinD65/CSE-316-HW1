@@ -48,10 +48,22 @@ export default class ToDoView {
             let list = lists[i];
             this.appendNewListToView(list);
         }
+
+        /*
+        for(let j = 0; j < lists.length; j++){
+            if(this.controller.handleFindCurrentList(lists[j]))
+                document.getElementById("todo-list-" + lists[j].id).style.backgroundColor = 'yellow';
+        }
+        */
     }
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
     viewList(list) {
+        document.getElementById("add-list-button").style.display = "block";
+        document.getElementById("undo-button").style.display = "block";
+        document.getElementById("redo-button").style.display = "block";
+
+
         let myController = this.controller;
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
@@ -62,12 +74,13 @@ export default class ToDoView {
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
+
             let listItemElement = "<div id='todo-list-item-" + listItem.id + "' class='list-item-card'>"
-                                + "<input type = 'text' class='task-col' id = 'description" + i + "' value = " + listItem.getDescription() + ">"
-                                + "<input type = 'date' class='due-date-col' id = 'date" + i + "' value = " + listItem.getDueDate() + ">"
-                                + "<select class='status-col' id = 'status" + i + "' value = " + listItem.getStatus() + ">"
-                                + "<option value = 'complete' selected = 'selected'>Complete</option>"
-                                + "<option value = 'incomplete' selected = 'selected'>Incomplete</option>"
+                                + "<div class='task-col' id = 'description" + i + "'>" + listItem.getDescription() + "</div>"
+                                + "<div class='due-date-col' id = 'date" + i + "'>" + listItem.getDueDate() + "</div>"
+                                + "<div class='status-col' id = 'status" + i + "'>" + listItem.getStatus() + "</div>"
+                                //+ "<option value = 'complete' selected = 'selected'>Complete</option>"
+                                //+ "<option value = 'incomplete' selected = 'selected'>Incomplete</option>"
                                 + "<div class='list-controls-col'>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_up</div>"
                                 + " <div class='list-item-control material-icons'>keyboard_arrow_down</div>"
@@ -76,21 +89,83 @@ export default class ToDoView {
                                 + " <div class='list-item-control'></div>"
                                 + "</div>";
             itemsListDiv.innerHTML += listItemElement;
-        }
-        for(let j = 0; j < list.items.length; j++){
-            let listItem = list.items[j];
-            document.getElementById("description" + j).onblur = function(event){
-                myController.handleEditTask(j, event.target.value, listItem.description);
-            }
-            document.getElementById("date" + j).onchange = function(event){
-                myController.handleEditDate(j, event.target.value, listItem.getDueDate());
-            }
-            document.getElementById("status" + j).onchange = function(event){
-                myController.handleEditStatus(j, event.target.value, listItem.getStatus());
-            }
+            
         }
         
+        for(let j = 0; j < list.items.length; j++){
+            let listItem = list.items[j];
+            document.getElementById("description" + j).onclick = function(event){
+                let oldElement = document.getElementById("description" + j);
+                let newElement = document.createElement("input");
+                oldElement.replaceWith(newElement);
+                newElement.setAttribute("id", "description" + j);
+                newElement.type = "text";
+                document.getElementById("add-list-button").style.color = 'grey';
+                document.getElementById("description" + j).onblur = function(event){
+                    document.getElementById("add-list-button").style.color = 'white';
+                    myController.handleEditTask(j, event.target.value, listItem.description);
+                    let oldElement = document.getElementById("description" + j);
+                    let newElement = document.createElement("div");
+                    newElement.id = "description" + j;
+                    let updatedText = document.createTextNode(listItem.getDescription());
+                    newElement.appendChild(updatedText);
+                    oldElement.replaceWith(newElement);
+                    myController.handleLoadList(list.id);
+                }
+            }
+            
+            document.getElementById("date" + j).onclick = function(event){
+                let oldElement = document.getElementById("date" + j);
+                let newElement = document.createElement("input");
+                oldElement.replaceWith(newElement);
+                newElement.setAttribute("id", "date" + j);
+                newElement.type = "date";
+                document.getElementById("add-list-button").style.color = 'grey';
+                document.getElementById("date" + j).onchange = function(event){
+                    document.getElementById("add-list-button").style.color = 'white'; //WHY IS THE COLOR NOT CHANGING BACK TO WHITE?
+                    myController.handleEditDate(j, event.target.value, listItem.getDueDate());
+                    oldElement = document.getElementById("date" + j);
+                    newElement = document.createElement("div");
+                    newElement.id = "date" + j;
+                    let updatedDate = document.createTextNode(listItem.getDueDate());
+                    newElement.appendChild(updatedDate);
+                    oldElement.replaceWith(newElement);
+                    myController.handleLoadList(list.id);
+                }
+            }
 
+            document.getElementById("status" + j).onclick = function(event){
+                let oldElement = document.getElementById("status" + j);
+                let newElement = document.createElement("status");
+                oldElement.replaceWith(newElement);
+                newElement.setAttribute("id", "status" + j);
+                let complete = document.createElement("option");
+                complete.setAttribute("value", "Complete");
+                let incomplete = document.createElement("option");
+                incomplete.setAttribute("value", "Incomplete");
+                newElement.appendChild(complete);
+                newElement.appendChild(incomplete);
+
+                document.getElementById("add-list-button").style.color = 'grey';
+                document.getElementById("status" + j).onchange = function(event){
+                    document.getElementById("add-list-button").style.color = 'white'; //WHY IS THE COLOR NOT CHANGING BACK TO WHITE?
+                    myController.handleEditStatus(j, event.target.value, listItem.getStatus());
+                    oldElement = document.getElementById("status" + j);
+                    newElement = document.createElement("div");
+                    newElement.id = "status" + j;
+                    let updatedStatus = document.createTextNode(listItem.getStatus());
+                    newElement.appendChild(updatedStatus);
+                    oldElement.replaceWith(newElement);
+                    myController.handleLoadList(list.id);
+                }
+            }
+
+            /*
+            document.getElementById("upArrow" + j).onclick = function(event){
+                myController.handleUpArrow(j);
+            }
+            */
+        }
     }
 
     // THE VIEW NEEDS THE CONTROLLER TO PROVIDE PROPER RESPONSES

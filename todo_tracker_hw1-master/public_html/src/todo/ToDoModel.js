@@ -8,6 +8,8 @@ import EditItem_Transaction from './transactions/EditItem_Transaction.js'
 import ToDoView from './ToDoView.js'
 import EditDate_Transaction from './transactions/EditDate_Transaction.js'
 import EditStatus_Transaction from './transactions/EditStatus_Transaction.js'
+import UpArrow_Transaction from './transactions/MoveItemUp_Transaction.js'
+import RemoveItemTransaction from './transactions/RemoveItem_Transaction.js'
 
 /**
  * ToDoModel
@@ -161,6 +163,11 @@ export default class ToDoModel {
         this.view.viewList(this.currentList);
     }
 
+    removeItemTransaction(itemID){
+        let transaction = RemoveItemTransaction(itemID);
+        this.tps.addTransaction(itemID);
+    }
+
     /**
      * Finds and then removes the current list. Provides confirmation prior to deletion.
      */
@@ -211,6 +218,7 @@ export default class ToDoModel {
      * @param {*} dateToChangeTo 
      */
     editDate(itemID, dateToChangeTo){
+        document.getElementById("add-list-button").style.color = 'grey';
         var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
         currentItem.setDueDate(dateToChangeTo);
         this.view.viewList(this.currentList);
@@ -227,6 +235,7 @@ export default class ToDoModel {
      * @param {*} stateToChangeTo 
      */
     editStatus(itemID, stateToChangeTo){
+        document.getElementById("add-list-button").style.color = 'grey';
         var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
         currentItem.setStatus(stateToChangeTo);
         this.view.viewList(this.currentList);
@@ -236,6 +245,25 @@ export default class ToDoModel {
         let transaction = new EditStatus_Transaction(this, itemID, newStatus, oldStatus);
         this.tps.addTransaction(transaction);
     }
+
+    moveItemUp(itemID){
+        var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
+        var aboveItem = this.currentList.getItemAtIndex(itemID - 1);
+        this.currentList.getItemAtIndex(itemID) = aboveItem;
+        this.currentList.getItemAtIndex(itemID - 1) = currentItem;
+        this.view.viewList(this.currentList);
+    }
+
+    addMoveItemUpTransaction(itemID){
+        let transaction = new UpArrow_Transaction(this, itemID);
+        this.tps.addTransaction(transaction);
+    }
+
+    /*
+    isCurrentList(listID){
+
+    }
+    */
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
     setView(initView) {
