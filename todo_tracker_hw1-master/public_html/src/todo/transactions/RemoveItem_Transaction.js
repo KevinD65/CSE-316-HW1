@@ -18,6 +18,6 @@ export default class RemoveItemTransaction extends jsTPS_Transaction {
 
     undoTransaction() {
         // re-add item to list
-        this.model.addItem(this.id);
+        this.model.addItem(this.id, this.itemRemoved);
     }
 }

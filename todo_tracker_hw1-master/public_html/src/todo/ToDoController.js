@@ -58,6 +58,10 @@ export default class ToDoController {
     handleDownArrow(itemId){
         this.model.addMoveItemDownTransaction(itemId);
     }
+
+    handleDelete(itemId){
+        this.model.removeItemTransaction(itemId);
+    }
 /*
     handleFindCurrentList(){
         this.model.isCurrentList(listID);

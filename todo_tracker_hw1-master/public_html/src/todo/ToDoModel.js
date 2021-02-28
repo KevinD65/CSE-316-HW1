@@ -157,19 +157,6 @@ export default class ToDoModel {
     }   
 
     /**
-     * Remove the itemToRemove from the current list and refresh.
-     */
-    removeItem(itemToRemove) {
-        this.currentList.removeItem(itemToRemove);
-        this.view.viewList(this.currentList);
-    }
-
-    removeItemTransaction(itemID){
-        let transaction = RemoveItemTransaction(itemID);
-        this.tps.addTransaction(itemID);
-    }
-
-    /**
      * Finds and then removes the current list. Provides confirmation prior to deletion.
      */
     removeCurrentList() {
@@ -273,11 +260,15 @@ export default class ToDoModel {
         this.tps.addTransaction(transaction);
     }
 
-    /*
-    isCurrentList(listID){
-
+    removeItem(itemID) {
+        this.currentList.removeItem(this.currentList.items[itemID]);
+        this.view.viewList(this.currentList);
     }
-    */
+
+    removeItemTransaction(itemID){
+        let transaction = new RemoveItemTransaction(itemID);
+        this.tps.addTransaction(transaction);
+    }
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
     setView(initView) {
