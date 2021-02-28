@@ -38,7 +38,7 @@ export default class ToDoView {
         }
     }
 
-    // REFRESHES ALL THE LISTS IN THE LEFT SIDEBAR
+    // REFRESHES ALL THE LISTS IN THE LEFT SIDEBAR. HIGHLIGHTS THE CURRENTLY SELECTED LIST.
     refreshLists(lists) {
         // GET THE UI CONTROL WE WILL APPEND IT TO
         let listsElement = document.getElementById("todo-lists-list");
@@ -47,17 +47,16 @@ export default class ToDoView {
         for (let i = 0; i < lists.length; i++) {
             let list = lists[i];
             this.appendNewListToView(list);
+            if(i == 0){
+                document.getElementById("todo-list-" + list.id).style.backgroundColor = 'rgb(255,200,25)';
+            }
+            else{
+                document.getElementById("todo-list-" + list.id).style.backgroundColor = 'none';
+            }
         }
-
-        /*
-        for(let j = 0; j < lists.length; j++){
-            if(this.controller.handleFindCurrentList(lists[j]))
-                document.getElementById("todo-list-" + lists[j].id).style.backgroundColor = 'yellow';
-        }
-        */
     }
 
-    // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW
+    // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW. ASSIGNS EVENT HANDLERS TO EACH ELEMENT.
     viewList(list) {
         document.getElementById("add-list-button").style.display = "block";
         document.getElementById("undo-button").style.display = "block";
