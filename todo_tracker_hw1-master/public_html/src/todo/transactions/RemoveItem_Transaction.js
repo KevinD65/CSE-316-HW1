@@ -13,7 +13,7 @@ export default class RemoveItemTransaction extends jsTPS_Transaction {
 
     doTransaction() {
         // remove item from list
-        this.itemRemoved = this.model.removeItem(this.id);
+        this.itemRemoved = this.model.removeAnItem(this.id);
     }
 
     undoTransaction() {

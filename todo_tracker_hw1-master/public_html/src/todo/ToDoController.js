@@ -15,8 +15,10 @@ export default class ToDoController {
 
         // SETUP ALL THE EVENT HANDLERS SINCE THEY USE THE MODEL
         document.getElementById("add-list-button").onmousedown = function() {
-            if(document.getElementById("add-list-button").style.color != 'grey')
+            if(document.getElementById("add-list-button").style.color != 'grey'){
                 appModel.addNewList();
+                appModel.tps.clearAllTransactions();
+            }
         }
         document.getElementById("undo-button").onmousedown = function() {
             appModel.undo();
@@ -62,9 +64,4 @@ export default class ToDoController {
     handleDelete(itemId){
         this.model.removeItemTransaction(itemId);
     }
-/*
-    handleFindCurrentList(){
-        this.model.isCurrentList(listID);
-    }
-    */
 }

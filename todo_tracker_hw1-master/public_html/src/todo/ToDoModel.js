@@ -129,8 +129,10 @@ export default class ToDoModel {
     loadList(listId) {
         let listIndex = -1;
         for (let i = 0; (i < this.toDoLists.length) && (listIndex < 0); i++) { //searching for the selected list to load
-            if (this.toDoLists[i].id === listId)
+            if (this.toDoLists[i].id === listId){
                 listIndex = i;
+                //this.tps.clearAllTransactions();
+            }
         }
         if (listIndex >= 0) {
             //REORDER THE toDOLists SO THAT THE CLICKED LIST APPEARS AT THE BEGINNING
@@ -206,7 +208,6 @@ export default class ToDoModel {
      * @param {*} dateToChangeTo 
      */
     editDate(itemID, dateToChangeTo){
-        document.getElementById("add-list-button").style.color = 'grey';
         var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
         currentItem.setDueDate(dateToChangeTo);
         this.view.viewList(this.currentList);
@@ -223,7 +224,6 @@ export default class ToDoModel {
      * @param {*} stateToChangeTo 
      */
     editStatus(itemID, stateToChangeTo){
-        document.getElementById("add-list-button").style.color = 'grey';
         var currentItem = this.currentList.getItemAtIndex(itemID); //retrieves the item to edit from the current list
         currentItem.setStatus(stateToChangeTo);
         this.view.viewList(this.currentList);
@@ -260,7 +260,11 @@ export default class ToDoModel {
         this.tps.addTransaction(transaction);
     }
 
-    removeItem(itemID) {
+    /**
+     * Removes an item from the list of items
+     * @param {*} itemID 
+     */
+    removeAnItem(itemID) {
         this.currentList.removeItem(this.currentList.items[itemID]);
         this.view.viewList(this.currentList);
     }

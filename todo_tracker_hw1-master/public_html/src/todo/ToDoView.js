@@ -118,30 +118,6 @@ export default class ToDoView {
                 }
             }
 
-            //When task description is clicked, change the element to an input type = 'text'
-            /*
-            document.getElementById("description" + j).onclick = function(event){
-                let oldElement = document.getElementById("description" + j);
-                let newElement = document.createElement("input");
-                oldElement.replaceWith(newElement);
-                newElement.setAttribute("id", "description" + j);
-                newElement.type = "text";
-                document.getElementById("add-list-button").style.color = 'grey';
-                //When user clicks off of the element, change it back into a div
-                document.getElementById("description" + j).onblur = function(event){
-                    document.getElementById("add-list-button").style.color = 'white';
-                    myController.handleEditTask(j, event.target.value, listItem.description);
-                    let oldElement = document.getElementById("description" + j);
-                    let newElement = document.createElement("div");
-                    newElement.id = "description" + j;
-                    newElement.classList.add("task-col");
-                    let updatedText = document.createTextNode(listItem.getDescription());
-                    newElement.appendChild(updatedText);
-                    oldElement.replaceWith(newElement);
-                    myController.handleLoadList(list.id);
-                }
-            }*/
-
             document.getElementById("description" + j).onclick = function(event){
                 let oldElement = document.getElementById("description" + j);
                 let newElement = document.createElement("input");
@@ -149,6 +125,7 @@ export default class ToDoView {
                 newElement.setAttribute("id", "description" + j);
                 newElement.type = "text";
                 newElement.value = listItem.description;
+                newElement.style.flexBasis = 'auto';
                 newElement.focus();
                 document.getElementById("add-list-button").style.color = 'grey';
                 //When user clicks off of the element, change it back into a div
@@ -191,18 +168,20 @@ export default class ToDoView {
 
             document.getElementById("status" + j).onclick = function(event){
                 let oldElement = document.getElementById("status" + j);
-                let newElement = document.createElement("status");
+                let newElement = document.createElement("select");
                 oldElement.replaceWith(newElement);
                 newElement.setAttribute("id", "status" + j);
                 let complete = document.createElement("option");
                 complete.setAttribute("value", "Complete");
+                complete.innerText = "Complete";
                 let incomplete = document.createElement("option");
                 incomplete.setAttribute("value", "Incomplete");
+                incomplete.innerText = "Incomplete";
                 newElement.appendChild(complete);
                 newElement.appendChild(incomplete);
-
+                console.log(newElement);
                 document.getElementById("add-list-button").style.color = 'grey';
-                document.getElementById("status" + j).onchange = function(event){
+                document.getElementById("status" + j).onblur = function(event){
                     myController.handleEditStatus(j, event.target.value, listItem.getStatus());
                     document.getElementById("add-list-button").style.color = 'white';
                     oldElement = document.getElementById("status" + j);
