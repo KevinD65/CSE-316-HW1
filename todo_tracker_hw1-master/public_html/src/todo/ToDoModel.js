@@ -127,12 +127,13 @@ export default class ToDoModel {
     /**
      * Load the items for the listId list into the UI.
      */
-    loadList(listId) {
+    loadList(listId, clearTransactions) {
         let listIndex = -1;
         for (let i = 0; (i < this.toDoLists.length) && (listIndex < 0); i++) { //searching for the selected list to load
             if (this.toDoLists[i].id === listId){
                 listIndex = i;
-                //this.tps.clearAllTransactions();
+                if(clearTransactions == "YES")
+                    this.tps.clearAllTransactions();
             }
         }
         if (listIndex >= 0) {

@@ -23,8 +23,9 @@ export default class ToDoView {
 
         // SETUP THE HANDLER FOR WHEN SOMEONE MOUSE CLICKS ON OUR LIST
         let thisController = this.controller;
+        let thisModel = this.model;
         listElement.onmousedown = function() {
-            thisController.handleLoadList(newList.id);
+            thisController.handleLoadList(newList.id, "YES");
         }
     }
 
@@ -139,7 +140,7 @@ export default class ToDoView {
                     let updatedText = document.createTextNode(listItem.getDescription());
                     newElement.appendChild(updatedText);
                     oldElement.replaceWith(newElement);
-                    myController.handleLoadList(list.id);
+                    myController.handleLoadList(list.id, "NO");
                 }
             }
                 
@@ -162,7 +163,7 @@ export default class ToDoView {
                     let updatedDate = document.createTextNode(listItem.getDueDate());
                     newElement.appendChild(updatedDate);
                     oldElement.replaceWith(newElement);
-                    myController.handleLoadList(list.id);
+                    myController.handleLoadList(list.id, "NO");
                 }
             }
 
@@ -190,7 +191,7 @@ export default class ToDoView {
                     let updatedStatus = document.createTextNode(listItem.getStatus());
                     newElement.appendChild(updatedStatus);
                     oldElement.replaceWith(newElement);
-                    myController.handleLoadList(list.id);
+                    myController.handleLoadList(list.id, "NO");
                 }
             }
 

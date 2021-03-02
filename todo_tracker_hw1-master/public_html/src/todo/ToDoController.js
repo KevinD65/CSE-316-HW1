@@ -35,9 +35,9 @@ export default class ToDoController {
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
-    handleLoadList(listId) {
+    handleLoadList(listId, clearTransactions) {
         // UNLOAD THE CURRENT LIST AND INSTEAD LOAD THE CURRENT LIST
-        this.model.loadList(listId);
+        this.model.loadList(listId, clearTransactions);
     }
 
     //PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON AN ITEM TASK TO EDIT
