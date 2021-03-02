@@ -217,7 +217,6 @@ export default class ToDoView {
             document.getElementById("deleteButton" + j).onclick = function(event){
                 myController.handleDelete(j);
             }
-            
         }
     }
 

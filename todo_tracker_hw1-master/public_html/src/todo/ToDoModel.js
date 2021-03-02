@@ -11,6 +11,7 @@ import EditStatus_Transaction from './transactions/EditStatus_Transaction.js'
 import UpArrow_Transaction from './transactions/MoveItemUp_Transaction.js'
 import RemoveItemTransaction from './transactions/RemoveItem_Transaction.js'
 import DownArrow_Transaction from './transactions/MoveItemDown_Transaction.js'
+import RemoveItem_Transaction from './transactions/RemoveItem_Transaction.js'
 
 /**
  * ToDoModel
@@ -270,8 +271,16 @@ export default class ToDoModel {
     }
 
     removeItemTransaction(itemID){
-        let transaction = new RemoveItemTransaction(itemID);
+        let transaction = new RemoveItem_Transaction(this, itemID);
         this.tps.addTransaction(transaction);
+    }
+
+    addItemBack(itemID, item){
+        for(let i = this.currentList.items.length; i > itemID; i--){
+            this.currentList.items[i] = this.currentList.items[i - 1];
+        }
+        this.currentList.items[itemID] = item;
+        this.view.viewList(this.currentList);
     }
 
     // WE NEED THE VIEW TO UPDATE WHEN DATA CHANGES.
