@@ -65,7 +65,6 @@ export default class ToDoModel {
      */
     addNewItemToList(list, initDescription, initDueDate, initStatus) {
         let newItem = new ToDoListItem(this.nextListItemId++);
-
         newItem.setDescription(initDescription);
         newItem.setDueDate(initDueDate);
         newItem.setStatus(initStatus);
@@ -157,6 +156,7 @@ export default class ToDoModel {
     redo() {
         if (this.tps.hasTransactionToRedo()) {
             this.tps.doTransaction();
+            this.view.viewList(this.currentList);
         }
     }   
 
@@ -295,6 +295,15 @@ export default class ToDoModel {
     undo() {
         if (this.tps.hasTransactionToUndo()) {
             this.tps.undoTransaction();
+            this.view.viewList(this.currentList);
         }
     } 
+
+    hasUndo(){
+        return this.tps.hasTransactionToUndo();
+    }
+
+    hasRedo(){
+        return this.tps.hasTransactionToRedo();
+    }
 }

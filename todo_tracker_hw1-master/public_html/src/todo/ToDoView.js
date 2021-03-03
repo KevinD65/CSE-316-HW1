@@ -63,8 +63,35 @@ export default class ToDoView {
         document.getElementById("undo-button").style.display = "block";
         document.getElementById("redo-button").style.display = "block";
 
-
         let myController = this.controller;
+        if(myController.checkForUndo()){
+            document.getElementById("undo-button").style.color = 'white';
+            if(myController.checkForRedo()){
+                document.getElementById("redo-button").style.color = 'white';
+            }
+            else{
+                document.getElementById("redo-button").style.color = 'grey';
+            }
+        }
+        else{
+            document.getElementById("undo-button").style.color = 'grey';
+        }
+
+        if(myController.checkForRedo()){
+            document.getElementById("redo-button").style.color = 'white';
+            if(myController.checkForUndo()){
+                document.getElementById("undo-button").style.color = 'white';
+            }
+            else{
+                document.getElementById("undo-button").style.color = 'grey';
+            }
+        }
+        else{
+            document.getElementById("redo-button").style.color = 'grey';
+        }
+        
+
+
         // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
         let itemsListDiv = document.getElementById("todo-list-items-div");
 
@@ -180,7 +207,6 @@ export default class ToDoView {
                 incomplete.innerText = "Incomplete";
                 newElement.appendChild(complete);
                 newElement.appendChild(incomplete);
-                console.log(newElement);
                 document.getElementById("add-list-button").style.color = 'grey';
                 document.getElementById("status" + j).onblur = function(event){
                     myController.handleEditStatus(j, event.target.value, listItem.getStatus());
@@ -191,8 +217,17 @@ export default class ToDoView {
                     let updatedStatus = document.createTextNode(listItem.getStatus());
                     newElement.appendChild(updatedStatus);
                     oldElement.replaceWith(newElement);
+                    console.log(listItem.getStatus());
+
                     myController.handleLoadList(list.id, "NO");
                 }
+            }
+
+            if(listItem.getStatus() == "complete"){
+                document.getElementById("status" + j).style.color = 'blue';
+            }
+            else{
+                document.getElementById("status" + j).style.color = 'yellow';
             }
 
             if(j > 0){

@@ -17,7 +17,6 @@ export default class ToDoController {
         document.getElementById("add-list-button").onmousedown = function() {
             if(document.getElementById("add-list-button").style.color != 'grey'){
                 appModel.addNewList();
-                appModel.tps.clearAllTransactions();
             }
         }
         document.getElementById("undo-button").onmousedown = function() {
@@ -63,5 +62,13 @@ export default class ToDoController {
 
     handleDelete(itemId){
         this.model.removeItemTransaction(itemId);
+    }
+
+    checkForUndo(){
+        return this.model.hasUndo();
+    }
+
+    checkForRedo(){
+        return this.model.hasRedo();
     }
 }
