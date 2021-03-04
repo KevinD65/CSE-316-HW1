@@ -82,6 +82,7 @@ export default class ToDoModel {
     addNewItemTransaction() {
         let transaction = new AddNewItem_Transaction(this);
         this.tps.addTransaction(transaction);
+        this.view.viewList(this.currentList); //refreshes the view (for proper greying out of undo/redo after a new item is added)
     }
 
     /**
@@ -305,5 +306,17 @@ export default class ToDoModel {
 
     hasRedo(){
         return this.tps.hasTransactionToRedo();
+    }
+
+    removeAllItems(){
+        for(let i = 0; i < this.currentList.items.length; i++){
+            this.currentList.items.splice(0, this.currentList.items.length);
+        }
+        this.view.viewList(this.currentList);
+    }
+
+    editListName(newName){
+        this.currentList.setName(newName);
+        this.view.refreshLists();
     }
 }

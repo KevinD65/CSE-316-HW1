@@ -31,6 +31,9 @@ export default class ToDoController {
         document.getElementById("add-item-button").onmousedown = function() {
             appModel.addNewItemTransaction();
         }
+        document.getElementById("close-list-button").onmousedown = function(){
+            appModel.removeAllItems();
+        }
     }
     
     // PROVIDES THE RESPONSE TO WHEN A USER CLICKS ON A LIST TO LOAD
@@ -70,5 +73,9 @@ export default class ToDoController {
 
     checkForRedo(){
         return this.model.hasRedo();
+    }
+
+    handleListNameEdit(newName){
+        this.model.editListName(newName);
     }
 }

@@ -27,6 +27,28 @@ export default class ToDoView {
         listElement.onmousedown = function() {
             thisController.handleLoadList(newList.id, "YES");
         }
+        /*
+        listElement.ondblclick = function(){
+            let oldElement = document.getElementById("todo-list-" + newList.id);
+            let newElement = document.createElement("input");
+            oldElement.replaceWith(newElement);
+            newElement.setAttribute("id", "todo-list-" + newList.id);
+            newElement.type = "text";
+            newElement.value = listItem.description;
+            newElement.style.flexBasis = 'auto';
+            newElement.focus();
+            document.getElementById("todo-list-" + newList).onblur = function(event){
+                thisController.handleListNameEdit(event.target.value);
+                let oldElement = document.getElementById("description" + j);
+                let newElement = document.createElement("div");
+                newElement.id = "description" + j;
+                newElement.classList.add("task-col");
+                let updatedText = document.createTextNode(listItem.getDescription());
+                newElement.appendChild(updatedText);
+                oldElement.replaceWith(newElement);
+                myController.handleLoadList(list.id, "NO");
+            }
+        }*/
     }
 
     // REMOVES ALL THE LISTS FROM THE LEFT SIDEBAR
@@ -64,6 +86,13 @@ export default class ToDoView {
         document.getElementById("redo-button").style.display = "block";
 
         let myController = this.controller;
+        
+        // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
+        let itemsListDiv = document.getElementById("todo-list-items-div");
+
+        // GET RID OF ALL THE ITEMS
+        this.clearItemsList();
+
         if(myController.checkForUndo()){
             document.getElementById("undo-button").style.color = 'white';
             if(myController.checkForRedo()){
@@ -90,19 +119,11 @@ export default class ToDoView {
             document.getElementById("redo-button").style.color = 'grey';
         }
         
-
-
-        // WE'LL BE ADDING THE LIST ITEMS TO OUR WORKSPACE
-        let itemsListDiv = document.getElementById("todo-list-items-div");
-
-        // GET RID OF ALL THE ITEMS
-        this.clearItemsList();
-
         for (let i = 0; i < list.items.length; i++) {
             // NOW BUILD ALL THE LIST ITEMS
             let listItem = list.items[i];
 
-            let listItemElement = "<div id='todo-list-item-" + i/*listItem.id*/ + "' class='list-item-card'>"
+            let listItemElement = "<div id='todo-list-item-" + i + "' class='list-item-card'>"
                                 + "<div class='task-col' id = 'description" + i + "'>" + listItem.getDescription() + "</div>"
                                 + "<div class='due-date-col' id = 'date" + i + "'>" + listItem.getDueDate() + "</div>"
                                 + "<div class='status-col' id = 'status" + i + "'>" + listItem.getStatus() + "</div>"
@@ -200,10 +221,10 @@ export default class ToDoView {
                 oldElement.replaceWith(newElement);
                 newElement.setAttribute("id", "status" + j);
                 let complete = document.createElement("option");
-                complete.setAttribute("value", "Complete");
+                complete.setAttribute("value", "complete");
                 complete.innerText = "Complete";
                 let incomplete = document.createElement("option");
-                incomplete.setAttribute("value", "Incomplete");
+                incomplete.setAttribute("value", "incomplete");
                 incomplete.innerText = "Incomplete";
                 newElement.appendChild(complete);
                 newElement.appendChild(incomplete);
@@ -217,8 +238,7 @@ export default class ToDoView {
                     let updatedStatus = document.createTextNode(listItem.getStatus());
                     newElement.appendChild(updatedStatus);
                     oldElement.replaceWith(newElement);
-                    console.log(listItem.getStatus());
-
+                    
                     myController.handleLoadList(list.id, "NO");
                 }
             }
