@@ -174,7 +174,6 @@ export default class ToDoModel {
             deleteConfirmation.style.display = "none";
             let indexOfList = -1;
             for (let i = 0; (i < this.toDoLists.length) && (indexOfList < 0); i++) {
-                console.log("hello world");
                 if (this.toDoLists[i].id === this.currentList.id) {
                     indexOfList = i;
                 }
@@ -311,12 +310,13 @@ export default class ToDoModel {
         return this.tps.hasTransactionToRedo();
     }
 
-    removeAllItems(){
-        for(let i = 0; i < this.currentList.items.length; i++){
-            this.currentList.items.splice(0, this.currentList.items.length);
-        }
-        this.tps.clearAllTransactions();
-        this.view.viewList(this.currentList);
+    deselectList() {
+        this.currentList = null;
+        document.getElementById("add-item-button").style.display = "none";
+        document.getElementById("delete-list-button").style.display = "none";
+        document.getElementById("close-list-button").style.display = "none";
+        this.view.clearItemsList();
+        this.view.refreshLists(this.toDoLists);
     }
 
     editListName(newName){

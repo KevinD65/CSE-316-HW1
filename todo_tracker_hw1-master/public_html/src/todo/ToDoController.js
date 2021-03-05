@@ -32,7 +32,7 @@ export default class ToDoController {
             appModel.addNewItemTransaction();
         }
         document.getElementById("close-list-button").onmousedown = function(){
-            appModel.removeAllItems();
+            appModel.deselectList();
         }
     }
     
