@@ -26,29 +26,8 @@ export default class ToDoView {
         let thisModel = this.model;
         listElement.onmousedown = function() {
             thisController.handleLoadList(newList.id, "YES");
+            document.getElementById("todo-list-" + newList.id).style.backgroundColor = 'rgb(255,200,25)';
         }
-        /*
-        listElement.ondblclick = function(){
-            let oldElement = document.getElementById("todo-list-" + newList.id);
-            let newElement = document.createElement("input");
-            oldElement.replaceWith(newElement);
-            newElement.setAttribute("id", "todo-list-" + newList.id);
-            newElement.type = "text";
-            newElement.value = listItem.description;
-            newElement.style.flexBasis = 'auto';
-            newElement.focus();
-            document.getElementById("todo-list-" + newList).onblur = function(event){
-                thisController.handleListNameEdit(event.target.value);
-                let oldElement = document.getElementById("description" + j);
-                let newElement = document.createElement("div");
-                newElement.id = "description" + j;
-                newElement.classList.add("task-col");
-                let updatedText = document.createTextNode(listItem.getDescription());
-                newElement.appendChild(updatedText);
-                oldElement.replaceWith(newElement);
-                myController.handleLoadList(list.id, "NO");
-            }
-        }*/
     }
 
     // REMOVES ALL THE LISTS FROM THE LEFT SIDEBAR
@@ -64,26 +43,22 @@ export default class ToDoView {
     // REFRESHES ALL THE LISTS IN THE LEFT SIDEBAR. HIGHLIGHTS THE CURRENTLY SELECTED LIST.
     refreshLists(lists) {
         // GET THE UI CONTROL WE WILL APPEND IT TO
+        let myController = this.controller;
         let listsElement = document.getElementById("todo-lists-list");
         listsElement.innerHTML = "";
-
         for (let i = 0; i < lists.length; i++) {
             let list = lists[i];
             this.appendNewListToView(list);
-            if(i == 0){
-                document.getElementById("todo-list-" + list.id).style.backgroundColor = 'rgb(255,200,25)';
-            }
-            else{
-                document.getElementById("todo-list-" + list.id).style.backgroundColor = 'none';
-            }
+            if(lists[i] == myController.handleCurrentList())
+                document.getElementById("todo-list-" + lists[i].id).style.backgroundColor = 'rgb(255,200,25)';
         }
     }
 
     // LOADS THE list ARGUMENT'S ITEMS INTO THE VIEW. ASSIGNS EVENT HANDLERS TO EACH ELEMENT.
     viewList(list) {
-        document.getElementById("add-list-button").style.display = "block";
-        document.getElementById("undo-button").style.display = "block";
-        document.getElementById("redo-button").style.display = "block";
+        document.getElementById("add-item-button").style.display = "block";
+        document.getElementById("delete-list-button").style.display = "block";
+        document.getElementById("close-list-button").style.display = "block";
 
         let myController = this.controller;
         
@@ -95,25 +70,12 @@ export default class ToDoView {
 
         if(myController.checkForUndo()){
             document.getElementById("undo-button").style.color = 'white';
-            if(myController.checkForRedo()){
-                document.getElementById("redo-button").style.color = 'white';
-            }
-            else{
-                document.getElementById("redo-button").style.color = 'grey';
-            }
         }
         else{
             document.getElementById("undo-button").style.color = 'grey';
         }
-
         if(myController.checkForRedo()){
             document.getElementById("redo-button").style.color = 'white';
-            if(myController.checkForUndo()){
-                document.getElementById("undo-button").style.color = 'white';
-            }
-            else{
-                document.getElementById("undo-button").style.color = 'grey';
-            }
         }
         else{
             document.getElementById("redo-button").style.color = 'grey';
@@ -178,9 +140,21 @@ export default class ToDoView {
                 newElement.focus();
                 document.getElementById("add-list-button").style.color = 'grey';
                 //When user clicks off of the element, change it back into a div
+                document.getElementById("description" + j).onchange = function(event){
+                    myController.handleEditTask(j, event.target.value, listItem.description);
+                    /*
+                    let oldElement = document.getElementById("description" + j);
+                    let newElement = document.createElement("div");
+                    newElement.id = "description" + j;
+                    newElement.classList.add("task-col");
+                    let updatedText = document.createTextNode(listItem.getDescription());
+                    newElement.appendChild(updatedText);
+                    oldElement.replaceWith(newElement);
+                    myController.handleLoadList(list.id, "NO");
+                    */
+                }
                 document.getElementById("description" + j).onblur = function(event){
                     document.getElementById("add-list-button").style.color = 'white';
-                    myController.handleEditTask(j, event.target.value, listItem.description);
                     let oldElement = document.getElementById("description" + j);
                     let newElement = document.createElement("div");
                     newElement.id = "description" + j;
@@ -228,6 +202,7 @@ export default class ToDoView {
                 incomplete.innerText = "Incomplete";
                 newElement.appendChild(complete);
                 newElement.appendChild(incomplete);
+                newElement.focus();
                 document.getElementById("add-list-button").style.color = 'grey';
                 document.getElementById("status" + j).onblur = function(event){
                     myController.handleEditStatus(j, event.target.value, listItem.getStatus());
@@ -237,8 +212,7 @@ export default class ToDoView {
                     newElement.id = "status" + j;
                     let updatedStatus = document.createTextNode(listItem.getStatus());
                     newElement.appendChild(updatedStatus);
-                    oldElement.replaceWith(newElement);
-                    
+                    oldElement.replaceWith(newElement);         
                     myController.handleLoadList(list.id, "NO");
                 }
             }
@@ -254,6 +228,7 @@ export default class ToDoView {
                 document.getElementById("upArrow" + j).style.color = 'white';
                 document.getElementById("upArrow" + j).onclick = function(event){
                     myController.handleUpArrow(j);
+                    myController.handleLoadList(list.id, "NO");
                 }
             }
             else{
@@ -264,6 +239,7 @@ export default class ToDoView {
                 document.getElementById("downArrow" + j).style.color = 'white';
                 document.getElementById("downArrow" + j).onclick = function(event){
                     myController.handleDownArrow(j);
+                    myController.handleLoadList(list.id, "NO");
                 }
             }
             else{
@@ -272,6 +248,7 @@ export default class ToDoView {
 
             document.getElementById("deleteButton" + j).onclick = function(event){
                 myController.handleDelete(j);
+                myController.handleLoadList(list.id, "NO");
             }
         }
     }

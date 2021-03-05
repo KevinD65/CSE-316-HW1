@@ -78,4 +78,8 @@ export default class ToDoController {
     handleListNameEdit(newName){
         this.model.editListName(newName);
     }
+
+    handleCurrentList(){
+        return this.model.getCurrentList();
+    }
 }

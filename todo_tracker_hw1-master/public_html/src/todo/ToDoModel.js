@@ -182,6 +182,9 @@ export default class ToDoModel {
             this.toDoLists.splice(indexOfList, 1); //at position indexOfList, remove 1 item (removes the unwanted list from the list of all lists)
             this.currentList = null; //nullifies the current list since it just got deleted
             this.view.clearItemsList(); //removes all of the unwanted list's content
+            document.getElementById("add-item-button").style.display = "none";
+            document.getElementById("delete-list-button").style.display = "none";
+            document.getElementById("close-list-button").style.display = "none";
             this.view.refreshLists(this.toDoLists); //refeshes the view of all the lists
             }
         );
@@ -312,11 +315,16 @@ export default class ToDoModel {
         for(let i = 0; i < this.currentList.items.length; i++){
             this.currentList.items.splice(0, this.currentList.items.length);
         }
+        this.tps.clearAllTransactions();
         this.view.viewList(this.currentList);
     }
 
     editListName(newName){
         this.currentList.setName(newName);
         this.view.refreshLists();
+    }
+
+    getCurrentList(){
+        return this.currentList;
     }
 }

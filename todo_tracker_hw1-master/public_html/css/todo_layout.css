@@ -32,15 +32,15 @@
     text-align: right;
 }
 
-#add-list-button {
+#add-item-button {
     display: none;
 }
 
-#undo-button {
+#delete-list-button {
     display: none;
 }
 
-#redo-button {
+#close-list-button {
     display: none;
 }
 
